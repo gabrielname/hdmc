@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{%block content%}
+<div>
+    <div class="container">
+      <!--<div style="margin-bottom: 10px;">
+            <a class="btn btn-success" href="/admin/add/">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              按钮
+            </a>
+        </div>
+      -->
+      
+      <div class="panel panel-default">
+            <div class="panel-heading">
+              <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+              添加比赛
+            </div>
+            <div class="panel-body">
+              <div class="bs-example" data-example-id="simple-table">
+                <form method="post">
+                  {% csrf_token %}
+                  {% for field in form%}
+                  {{field.label}}
+                  {{field}}
+                  {% endfor %}
+                  <div>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </div>
+    
+</div>
+
+
+{%endblock%}

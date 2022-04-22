@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="container">
+    <div class="jumbotron">
+      <h1>新旅程杯</h1>
+      <table class="table table-boarderd table-hover">
+                  
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>赛</th>
+            <th>胜</th>
+            <th>平</th>
+            <th>负</th>
+            <th>进/失</th>
+            <th>积分</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in njcup_top_3%}
+          <tr>
+            <td><a href="/participant_detail/?pid={{item.id}}">{{item.current_rank}} {{item.participant.name}}</a></td>
+            <td>{{item.games}}</td>
+            <td>{{item.wins}}</td>
+            <td>{{item.draws}}</td>
+            <td>{{item.losts}}</td>
+            <td>{{item.goals}}/{{item.goals_conceded}}</td>
+            <td>{{item.points}}</td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table> 
+      <p><a class="btn btn-primary btn-lg" href="/table/?event=1" role="button">查看完整积分榜</a></p>
+    </div>
+    </div>
+
+    <div class="container">
+      <div class="jumbotron">
+        <h1>不存在的杯</h1>
+        <table class="table table-boarderd table-hover">
+                    
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>赛</th>
+              <th>胜</th>
+              <th>平</th>
+              <th>负</th>
+              <th>进/失</th>
+              <th>积分</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in fakecup_top_3%}
+            <tr>
+              <td><a href="/participant_detail/?pid={{item.participant_id}}">{{item.current_rank}} {{item.participant.name}}</a></td>
+              <td>{{item.games}}</td>
+              <td>{{item.wins}}</td>
+              <td>{{item.draws}}</td>
+              <td>{{item.losts}}</td>
+              <td>{{item.goals}}/{{item.goals_conceded}}</td>
+              <td>{{item.points}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table> 
+        <p><a class="btn btn-primary btn-lg" href="/table/?event=2" role="button">查看完整积分榜</a></p>
+      </div>
+      </div>
+
+{% endblock %}
+
+{%block js%}
+    <script src="\static\js\echarts.min.js"></script>
+    <script type="text/javascript">
+            $(function(){
+                initHeat();
+            })
+
+            function initHeat(){
+                var myChart = echarts.init(document.getElementById('heat'));
+                function getVirtulData(year) {
+                    year = year || '2017';
+                    var date = +echarts.number.parseDate(year + '-09-01');
+                    var end = +echarts.number.parseDate(+year + 1 + '-11-01');
+                    var dayTime = 3600 * 24 * 1000;
+                    var data = [];
+                    for (var time = date; time < end; time += dayTime) {
+                        data.push([
+                        echarts.format.formatTime('yyyy-MM-dd', time),
+                        Math.floor(Math.random() * 10000)
+                        ]);
+                    }
+                    return data;
+                    }
+                    option = {
+                    title: {
+                        top: 30,
+                        left: 'center',
+                        text: '比赛日期热力图'
+                    },
+                    tooltip: {},
+                    visualMap: {
+                        min: 0,
+                        max: 10000,
+                        type: 'piecewise',
+                        orient: 'horizontal',
+                        left: 'center',
+                        top: 65
+                    },
+                    calendar: {
+                        top: 120,
+                        left: 30,
+                        right: 30,
+                        cellSize: ['auto', 13],
+                        range: '2016',
+                        itemStyle: {
+                        borderWidth: 0.5
+                        },
+                        yearLabel: { show: false }
+                    },
+                    series: {
+                        type: 'heatmap',
+                        coordinateSystem: 'calendar',
+                        data: getVirtulData('2016')
+                    }
+                    };
+                    myChart.setOption(option);
+            }
+    
+    </script>
+{%endblock%}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{%block content%}
+<div>
+
+      <div class="panel panel-default">
+            <div class="panel-heading">
+              <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+              积分榜(点击id查看选手详情)
+            </div>
+            <div class="panel-body">
+              <div class="bs-example" data-example-id="simple-table">
+                <table class="table table-boarderd table-hover">
+                  
+                  <thead>
+                    <tr>
+                      <th>排名</th>
+                      <th>赛</th>
+                      <th>胜</th>
+                      <th>平</th>
+                      <th>负</th>
+                      <th>进/失</th>
+                      <th>积分</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in players%}
+                    <tr>
+                      <td><a href="/participant_detail/?pid={{item.participant_id}}">{{item.current_rank}} {{item.participant.name}}</a></td>
+                      <td>{{item.games}}</td>
+                      <td>{{item.wins}}</td>
+                      <td>{{item.draws}}</td>
+                      <td>{{item.losts}}</td>
+                      <td>{{item.goals}}/{{item.goals_conceded}}</td>
+                      <td>{{item.points}}</td> 
+                    </tr>
+                    {%endfor%}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+      </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            
+          </ul>
+        </nav>
+
+    
+</div>
+
+
+{%endblock%}

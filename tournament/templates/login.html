@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <link rel="stylesheet"  href="/static/plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+</head>
+<style type="text/css">
+    .account{
+        width: 400px;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        box-shadow: 5px 5px 20px #aaa;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 150px;
+        padding: 20px 40px;
+    }
+    .account h2{
+        margin-top: 10px;
+        text-align: center;
+    }
+
+</style>
+<body>
+        <div class="account">
+            <h2>用户登录</h2>
+            <form method="post" novalidate> 
+                {% csrf_token %}
+                <label>用户名</label>
+                {{form.username}}
+        
+                <br>
+        
+                <label >密码</label>
+                {{form.password}}
+                <span style="color:red;" >{{form.password.errors.0}}</span>
+                <br>
+                
+                <div class="form-group">
+                    <label for="id_code">图片验证码</label>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            {{form.code}}
+                            <span style="color:red;" >{{form.code.errors.0}}</span>
+                        </div>
+                        <div class="col-xs-5">
+                            <img id="image_code" src="/image/code/">
+                        </div>
+                    </div>    
+                </div>
+                
+                
+                <button type="submit" class="btn btn-binary">登录</button>
+            </form>
+            
+        </div>
+          
+    
+<script src="/static\js\jquery-3.6.0.min.js"></script>
+<script src="/static\plugins\bootstrap-3.4.1-dist\js\bootstrap.min.js"></script>
+</body>
+</html>
