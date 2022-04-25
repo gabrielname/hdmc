@@ -16,11 +16,11 @@ def participant_add(request):
         form.save()
     
     #计算更新所有选手排名
-    players = models.Participant.objects.all().order_by('-points')
-    i = 1
-    for p in players:
-        models.Participant.objects.filter(id=p.id).update(current_rank=i)
-        i = i + 1
+    # players = models.Participant.objects.all().order_by('-points')
+    # i = 1
+    # for p in players:
+    #     models.Participant.objects.filter(id=p.id).update(current_rank=i)
+    #     i = i + 1
 
     return redirect("/table")
 

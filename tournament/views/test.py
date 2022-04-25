@@ -99,7 +99,7 @@ def update_fakecup_table():
         h = models.Game.objects.filter(home_id=p.participant_id,event=2)
         a = models.Game.objects.filter(away_id=p.participant_id,event=2)
         for game in h:
-            print(game)
+            #print(game)
             games = games + 1
             goal = goal + game.home_goal
             goal_conceded = goal_conceded + game.away_goal
@@ -110,7 +110,7 @@ def update_fakecup_table():
             else:
                 lose = lose + 1
         for game in a:
-            print(game)
+            #print(game)
             games = games + 1
             goal = goal + game.away_goal
             goal_conceded = goal_conceded + game.home_goal
