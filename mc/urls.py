@@ -14,28 +14,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 from tournament.views import index,table,schedule,participant,account,test
 
 urlpatterns = [
+    re_path(r'^$',index.index),
     path('admin/', admin.site.urls),
 
     #首页
     path('index/',index.index),
 
+    #赛事简介
+    path('intro/',index.intro),
+
     #登录
     path('login/',account.login),
-    path('admin_login/',account.admin_login),
+    path('visitor_login/',account.visitor_login),
     #退出登录
     path('logout/',account.logout),
     #获取验证码图片
     path('image/code/',account.code),
 
+    
     #积分榜
     path('table/',table.table),
     path('participant_detail/',table.participant_detail),
     #选手详情页数据
-    path('pdetail_data/',table.pdetail_data),
+    path('pdetail/bar_data/',table.pdetail_bar_data),
+    path('pdetail/pie_data/',table.pdetail_pie_data),
+    path('pdetail/radar_data/',table.pdetail_radar_data),
     #个人中心
     path('participant_information/',participant.participant_information),
 
@@ -49,6 +56,7 @@ urlpatterns = [
 
     #测试
     path('test/',test.doit),
+    path('tmp/',test.tmp),
 
     
 ]

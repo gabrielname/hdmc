@@ -2,170 +2,251 @@
 
 {%block content%}
 
-<div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6" id="m2" style="width: 100%;height: 200px;">
-            </div>
-            <div class="col-sm-6" id="m3" style="width: 100%;height: 500px;">
-            </div>
-        </div>
-        
-    </div>
-    <div class="container">
-      <!--<div style="margin-bottom: 10px;">
-            <a class="btn btn-success" href="/admin/add/">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              按钮
-            </a>
-        </div>
-      -->
+
+
+    <div class="container" >
+ 
 
         <div class="panel panel-default">
-            <div class="panel-heading">
-              <span aria-hidden="true"></span>
-              {{home_games.0.home}}的赛程
-            </div>
+
+            <div class="panel-heading"><span aria-hidden="true"></span>选手  {{home_games.0.home}}</div>
+
+            <ul class="nav nav-tabs ">
+                <li class="active"><a href="#stat"  aria-controls="total" role="tab" data-toggle="tab">统计</a></li>
+                <li><a href="#games" aria-controls="club" role="tab" data-toggle="tab">赛程</a></li>
+              </ul>
+            
             <div class="panel-body">
-              <div class="bs-example" data-example-id="simple-table">
-                <table class="table table-hover">
+              
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="stat">
+                        
+                            <div class="row" style="width: 100%;margin-bottom: 0%;">
+                                <div id="bar_chart" style=" height: 120px;"></div>
+                            </div>
+                            <div class="row" style="margin-top: 0%;margin-left: 0%;margin-right: 0px;">
+                                <div class="col-md-6" id="radar_chart" style="height: 400px;"></div>
+                                <div class="col-md-6">
+                                    <div class="panel panel-default" style="margin-top: 20px;">
+                                        <div class="panel-heading"><span aria-hidden="true"></span>主客场对比</div>
+                                        <div class="panel-body">
+                                            <table class="table table-boarderd table-hover">
                   
-                  <thead>
-                    <tr>
-                      <th>比赛日期</th>
-                      <th>主队</th>
-                      <th></th>
-                      <th>比分</th>
-                      <th></th>
-                      <th>客队</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for obj in games %}
-                    <tr>
-                        <th>{{obj.game_date}}</th>
-                        <td>{{obj.home}}</td>
-                        <td>{{obj.home_goal}}</td>
-                        <td>-</td>
-                        <td>{{obj.away_goal}}</td>
-                        <td>{{obj.away}}</td>
-                        <!--<td>
-                          <a class="btn btn-primary" href="#">编辑</a>
-                          <a class="btn btn-danger" href="#">删除</a>
-                        </td>
-                        -->
-                      </tr>
-                    {%endfor%}
-                  </tbody>
-                </table>
-              </div>
+                                                <thead>
+                                                  <tr>
+                                                    <th></th>
+                                                    <th>主场</th>
+                                                    <th>客场</th>
+                                                    
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  {%for item in details%}
+                                                  <tr>
+                                                    <th>{{item.0}}</th>
+                                                    <td>{{item.1}}</td>
+                                                    <td>{{item.2}}</td>
+                                                  </tr>
+                                                  {%endfor%}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        
+                    </div>
+                
+                    <div role="tabpanel" class="tab-pane fade" id="games">
+                        <div class="bs-example" data-example-id="simple-table"></div>
+                            <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th>比赛日期</th>
+                                <th>主队</th>
+                                <th> </th>
+                                <th>比分</th>
+                                <th> </th>
+                                <th>客队</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for obj in games %}
+                                <tr>
+                                    <th>{{obj.game_date}}</th>
+                                    <td>{{obj.home}}</td>
+                                    <td>{{obj.home_goal}}</td>
+                                    <td>-</td>
+                                    <td>{{obj.away_goal}}</td>
+                                    <td>{{obj.away}}</td>
+                                    <!--<td>
+                                    <a class="btn btn-primary" href="#">编辑</a>
+                                    <a class="btn btn-danger" href="#">删除</a>
+                                    </td>
+                                    -->
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>   
             </div>
         </div>
     </div>
-    
-</div>
+
 
 {%block js%}
     <script src="\static\js\echarts.min.js"></script>
     <script type="text/javascript">
             $(function(){
-                initPie();  
+                initBar();
                 initRadar();    
+                initDashboard();
             })
 
-            function initPie(){
-                var myChart = echarts.init(document.getElementById('m2'));
+            function initBar(){
+                var myChart = echarts.init(document.getElementById('bar_chart'));
 
                 var option = {
                     tooltip: {
-                        trigger: 'item'
-                    },
-                    legend: {
-                        top: '5%',
-                        left: 'center'
-                    },
-                    series: [
-                        {
-                        name: '',
-                        type: 'pie',
-                        radius: ['40%', '70%'],
-                        avoidLabelOverlap: true,
-                        itemStyle: {
-                            borderRadius: 10,
-                            borderColor: '#fff',
-                            borderWidth: 2
-                        },
-                        label: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            label: {
-                            show: true,
-                            fontSize: '40',
-                            fontWeight: 'bold'
-                            }
-                        },
-                        labelLine: {
-                            show: true
-                        },
-                        data: [
-                            { value: 1, name: '胜' },
-                            { value: 735, name: '平' },
-                            { value: 580, name: '负' },
-                        ]
+                        trigger: 'axis',
+                        axisPointer: {
+                        // Use axis to trigger tooltip
+                        type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
                         }
-                    ]
+                    },
+                    legend: {},
+                    grid: {
+                        left: '2%',
+                        right: '0%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        axisTick:{
+                            show:false // 不显示坐标轴刻度线
+                        },
+                        axisLine: {
+                            show: false, // 不显示坐标轴线
+                        },
+                        axisLabel: {
+                            show: false, // 不显示坐标轴上的文字
+                        },
+                        splitLine:{
+                            show:false // 不显示网格线
+                        },
+                        type: 'value'
+                    },
+                    yAxis: {
+                        axisTick:{
+                            show:false // 不显示坐标轴刻度线
+                        },
+                        axisLine: {
+                            show: false, // 不显示坐标轴线
+                        },
+                        axisLabel: {
+                            show: false, // 不显示坐标轴上的文字
+                        },
+                        splitLine:{
+                            show:false // 不显示网格线
+                        },
+                        type: 'category',
+                        data: ['',]
+                    },
+                    
                     };
-                $.ajax({
-                    url:"/pdetail_data/?pid={{home_games.0.home_id}}",
+            $.ajax({
+                    url:"/pdetail/bar_data/?pid={{home_games.0.home_id}}",
                     type:"get",
                     dataType:"JSON",
                     success:function(res) {
                         if (res.status) {
-                            option.series[0].data = res.data;
+                            option.series = res.data;
                             myChart.setOption(option);
                         }
                     }
 
                 })
             }
-            
 
             function initRadar(){
-                myChart = echarts.init(document.getElementById('m3'));
-                option = {
+                var myChart = echarts.init(document.getElementById('radar_chart'));
+                var option = {
                 title: {
                     text: ''
                 },
                 legend: {
-                    data: ['Allocated Budget', 'Actual Spending']
+                    data: []
                 },
                 radar: {
                     // shape: 'circle',
                     indicator: [
-                    { name: 'Sales', max: 6500 },
-                    { name: 'Administration', max: 16000 },
-                    { name: 'Information Technology', max: 30000 },
-                    { name: 'Customer Support', max: 38000 },
-                    { name: 'Development', max: 52000 },
-                    { name: 'Marketing', max: 25000 }
+                    { name: '胜率', max: 100 },
+                    { name: '进攻', max: 100 },
+                    { name: '防守', max: 100 },
+                    { name: '主客场均衡', max: 100 },
+                    { name: '完赛速度', max: 100 },
+                    { name: '出战场数', max: 100 },
                     ]
                 },
-                series: [
-                    {
-                    name: 'Budget vs spending',
-                    type: 'radar',
-                    data: [
-                        {
-                        value: [4200, 3000, 20000, 35000, 50000, 18000],
-                        name: 'Allocated Budget'
-                        },  
-                    ]
-                    }
-                ]
+                 
+                    // {
+                    // name: 'Budget vs spending',
+                    // type: 'radar',
+                    // data: [
+                    //     {
+                    //     value: [4200, 3000, 20000, 35000, 50000, 18000],
+                    //     name: 'Allocated Budget'
+                    //     },  
+                    // ]
+                    // }
+                
                 };
+                $.ajax({
+                    url:"/pdetail/radar_data/?pid={{home_games.0.home_id}}",
+                    type:"get",
+                    dataType:"JSON",
+                    success:function(res) {
+                        if (res.status) {
+                            option.series = res.data;
+                            myChart.setOption(option);
+                        }
+                    }
+
+                })
+            }
+    
+            function initDashboard(){
+                var myChart = echarts.init(document.getElementById('dashboard_chart_1'));
+                
+                var option = {
+                    tooltip: {
+                        formatter: '{a} <br/>{b} : {c}%'
+                    },
+                    series: [
+                        {
+                        name: '胜率',
+                        type: 'gauge',
+                        progress: {
+                            show: true
+                        },
+                        detail: {
+                            valueAnimation: true,
+                            formatter: '{value}'
+                        },
+                        data: [
+                            {
+                            value: 50,
+                            name: '主场胜率'
+                            }
+                        ]
+                        }
+                    ]
+                    };
                 myChart.setOption(option);
+                    
+                
             }
     </script>
 {%endblock%}

@@ -47,26 +47,10 @@ def login(request):
         return redirect("/index")
     return render(request,"login.html",{"form":form})
 
-def admin_login(request):
-    if request.method =="GET":
-        form = LoginForm()
-        return render(request,"login.html",{"form":form}) 
-    form = LoginForm(data=request.POST)
-    if form.is_valid():
-        user_input_code = form.cleaned_data.pop('code')
-        code = request.session.get('image_code','')
-        if code != user_input_code.upper():
-            form.add_error('code',"验证码错误")
-            return render(request,"login.html",{"form":form})
-        print(form.cleaned_data)
-        obj = models.Admin.objects.filter(**form.cleaned_data).first()
-        if  not obj:
-            form.add_error("password","用户名或密码错误")
-            return render(request,"login.html",{"form":form})
-        request.session["info"] = {"id":obj.id,"username":obj.username}
-        request.session.set_expiry(60*60*24*7)#7天免登录
-        return redirect("/index")
-    return render(request,"login.html",{"form":form})
+def visitor_login(request):
+    request.session["info"] = {"id":'游客',"username":'游客'}
+    request.session.set_expiry(60*60*24*7)#7天免登录
+    return redirect('/table/?event=1')
 
 def logout(request):
     request.session.clear()

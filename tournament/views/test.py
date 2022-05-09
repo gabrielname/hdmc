@@ -1,7 +1,10 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect,render
 from tournament import models
 from tournament.utils.md5 import md5
 
+def tmp(request):
+    return render(request,'tmp.html')
+    
 def doit(request):
     
     return redirect("/index")
