@@ -1,7 +1,8 @@
 from PIL import Image,ImageDraw,ImageFont,ImageFilter
 import random
+import os
  
-def verification_code(width=120, height=30, char_length=5, font_file='/static/font/HGH1_CNKI.ttf', font_size=20):
+def verification_code(width=120, height=30, char_length=5, font_file=os.getcwd()+'/HGH1_CNKI.ttf', font_size=20):
     #ubuntu  font_file='/home/ubuntu/hdmc/tournament/static/font/HGH1_CNKI.ttf'
     code = []
     img = Image.new(mode='RGB', size=(width, height), color=(255, 255, 255))
